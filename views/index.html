@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Escolar API | Developer Portal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0f172a', accent: '#3b82f6' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col md:flex-row min-h-screen">
+
+    <!-- Sidebar de Navegação -->
+    <aside class="w-full md:w-64 bg-primary text-white flex-shrink-0 p-6 shadow-xl z-10 sticky top-0 md:h-screen overflow-y-auto custom-scrollbar">
+        <h1 class="text-2xl font-bold tracking-tight mb-8">API Docs <span class="text-accent">v1.0</span></h1>
+        
+        <nav class="space-y-6">
+            <div>
+                <h2 class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-3">Autenticação</h2>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#auth" class="hover:text-accent transition-colors">Login & JWT</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h2 class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-3">Módulo de Segurança</h2>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#usuarios" class="hover:text-accent transition-colors">Usuários</a></li>
+                    <li><a href="#perfis" class="hover:text-accent transition-colors">Perfis (Roles)</a></li>
+                    <li><a href="#permissoes" class="hover:text-accent transition-colors">Permissões</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-3">Módulo Acadêmico</h2>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#alunos" class="hover:text-accent transition-colors">Alunos</a></li>
+                    <li><a href="#cursos" class="hover:text-accent transition-colors">Cursos</a></li>
+                    <li><a href="#docentes" class="hover:text-accent transition-colors">Docentes</a></li>
+                    <li><a href="#turmas" class="hover:text-accent transition-colors">Turmas</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 p-6 md:p-12 overflow-y-auto">
+        <div class="max-w-4xl mx-auto space-y-16">
+
+            <header class="border-b border-slate-200 pb-8">
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Referência da API</h1>
+                <p class="text-lg text-slate-600">Sistema de Gestão Escolar. Arquitetura RESTful completa com contratos explícitos de dados.</p>
+            </header>
+
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-2">🛡️ Rotas Protegidas (JWT)</h3>
+                <p class="text-sm text-slate-600 mb-4">A grande maioria dos <i>endpoints</i> exige autenticação. Injete o token no cabeçalho HTTP da seguinte forma:</p>
+                <code class="bg-slate-800 text-green-400 p-2 rounded block text-sm">Authorization: Bearer eyJhbGciOiJIUzI1...</code>
+            </section>
+
+            <!-- ===================================== -->
+            <!-- AUTENTICAÇÃO E SEGURANÇA              -->
+            <!-- ===================================== -->
+
+            <section id="auth" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Autenticação</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST</span>
+                        <code class="text-sm font-bold">/api/auth/login</code>
+                        <span class="ml-auto bg-slate-200 text-slate-600 text-xs font-bold px-2 py-1 rounded">PÚBLICO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Gera o token de acesso JWT com base nas credenciais.</p>
+                        <pre><code class="language-json">{
+  "email": "admin@escola.com",
+  "senha": "senhaSegura123"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="usuarios" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Usuários</h2>
+                <p class="text-slate-600 mb-4">Endpoints de gestão de contas de acesso (GET, PUT, DELETE requerem JWT).</p>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST</span>
+                        <code class="text-sm font-bold">/api/usuarios</code>
+                        <span class="ml-auto bg-slate-200 text-slate-600 text-xs font-bold px-2 py-1 rounded">PÚBLICO</span>
+                    </div>
+                    <div class="p-4">
+                        <pre><code class="language-json">{
+  "email": "novo.usuario@escola.com",
+  "senha": "senhaSegura123",
+  "perfilNome": "ADMINISTRADOR"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="perfis" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Perfis (Roles)</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST / PUT</span>
+                        <code class="text-sm font-bold">/api/perfis</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Cria ou atualiza um papel no sistema de RBAC (Role-Based Access Control).</p>
+                        <pre><code class="language-json">{
+  "nome": "COORDENADOR"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="permissoes" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Permissões</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST / PUT</span>
+                        <code class="text-sm font-bold">/api/permissoes</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Define permissões granulares de acesso a recursos.</p>
+                        <pre><code class="language-json">{
+  "nome": "CRIAR_ALUNO",
+  "descricao": "Permite registrar novos alunos na instituição"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!-- MÓDULO ACADÊMICO                      -->
+            <!-- ===================================== -->
+
+            <section id="alunos" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Alunos</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST</span>
+                        <code class="text-sm font-bold">/api/alunos</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Cadastra um aluno. Matrícula obrigatória e única.</p>
+                        <pre><code class="language-json">{
+  "matricula": "2026-001",
+  "nome": "Leonardo Ignacio Fernandes",
+  "dataNascimento": "1980-05-15"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cursos" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Cursos</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST / PUT</span>
+                        <code class="text-sm font-bold">/api/cursos</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Estrutura de dados para criação e atualização de matrizes curriculares.</p>
+                        <pre><code class="language-json">{
+  "nome": "Técnico em Informática",
+  "cargaHoraria": 1200,
+  "descricao": "Curso técnico focado em desenvolvimento de software e redes."
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="docentes" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Docentes</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST / PUT</span>
+                        <code class="text-sm font-bold">/api/docentes</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">O registro (ID corporativo) deve ser único.</p>
+                        <pre><code class="language-json">{
+  "registro": "DOC-2026-001",
+  "nome": "Dr. Alan Turing",
+  "especialidade": "Algoritmos e Criptografia"
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="turmas" class="scroll-mt-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Turmas</h2>
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="flex items-center px-4 py-3 bg-slate-50 border-b">
+                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded mr-3">POST / PUT</span>
+                        <code class="text-sm font-bold">/api/turmas</code>
+                        <span class="ml-auto bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">PROTEGIDO</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm text-slate-600 mb-4">Relaciona alunos e docentes a um curso específico (Chave Estrangeira <code>cursoId</code>).</p>
+                        <pre><code class="language-json">{
+  "codigo": "TI-40",
+  "semestre": "2026.1",
+  "turno": "Noturno",
+  "cursoId": 1
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Nota sobre operações padronizadas -->
+            <section class="bg-slate-800 p-6 rounded-lg text-slate-300 text-sm mt-8 border border-slate-700">
+                <h4 class="text-white font-bold mb-3 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Comportamento RESTful Herdado
+                </h4>
+                <p class="mb-4">Todas as entidades acima (exceto restrições de negócio específicas) suportam as seguintes operações por padrão através do <code>GenericController</code>:</p>
+                <ul class="space-y-3 font-mono text-xs">
+                    <li><span class="text-blue-400 font-bold w-12 inline-block">GET</span> /api/{entidade} <span class="text-slate-500">-> Devolve array de registos ativos</span></li>
+                    <li><span class="text-blue-400 font-bold w-12 inline-block">GET</span> /api/{entidade}/:id <span class="text-slate-500">-> Devolve detalhe de registo específico</span></li>
+                    <li><span class="text-orange-400 font-bold w-12 inline-block">PUT</span> /api/{entidade}/:id <span class="text-slate-500">-> Suporta atualização parcial (PATCH nativo do Prisma)</span></li>
+                    <li><span class="text-red-400 font-bold w-12 inline-block">DELETE</span> /api/{entidade}/:id <span class="text-slate-500">-> Aplica Soft Delete (não apaga dados físicos)</span></li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

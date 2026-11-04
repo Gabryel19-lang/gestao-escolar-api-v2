@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // A string de conexão foi delegada ao prisma.config.ts e ao construtor do PrismaClient
+}
+
+// ==========================================
+// MÓDULO DE SEGURANÇA E ACESSO (RBAC)
+// ==========================================
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique @db.VarChar(100)
+  senhaHash String    @map("senha_hash") @db.VarChar(255)
+  perfilId  Int       @map("perfil_id")
+  perfil    Perfil    @relation(fields: [perfilId], references: [id])
+  
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("usuarios")
+}
+
+model Perfil {
+  id          Int               @id @default(autoincrement())
+  nome        String            @unique @db.VarChar(50) 
+  descricao   String?           @db.VarChar(255)
+  usuarios    Usuario[]
+  permissoes  PerfilPermissao[]
+  
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+  deletedAt   DateTime?         @map("deleted_at")
+
+  @@map("perfis")
+}
+
+model Permissao {
+  id        Int               @id @default(autoincrement())
+  recurso   String            @db.VarChar(50) 
+  acao      String            @db.VarChar(50) 
+  perfis    PerfilPermissao[]
+
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+  deletedAt DateTime?         @map("deleted_at")
+
+  @@unique([recurso, acao])
+  @@map("permissoes")
+}
+
+model PerfilPermissao {
+  perfilId    Int       @map("perfil_id")
+  permissaoId Int       @map("permissao_id")
+  perfil      Perfil    @relation(fields: [perfilId], references: [id])
+  permissao   Permissao @relation(fields: [permissaoId], references: [id])
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  @@id([perfilId, permissaoId])
+  @@map("perfis_permissoes")
+}
+
+// ==========================================
+// MÓDULO ACADÊMICO
+// ==========================================
+
+model Aluno {
+  id             Int          @id @default(autoincrement())
+  matricula      String       @unique @db.VarChar(20)
+  nome           String       @db.VarChar(100)
+  dataNascimento DateTime     @map("data_nascimento") @db.Date
+  turmas         AlunoTurma[]
+
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  deletedAt      DateTime?    @map("deleted_at")
+
+  @@map("alunos")
+}
+
+model Docente {
+  id            Int       @id @default(autoincrement())
+  registro      String    @unique @db.VarChar(20)
+  nome          String    @db.VarChar(100)
+  especialidade String    @db.VarChar(100)
+  turmas        Turma[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  @@map("docentes")
+}
+
+model Curso {
+  id           Int       @id @default(autoincrement())
+  nome         String    @db.VarChar(100)
+  descricao    String?   @db.Text
+  cargaHoraria Int       @map("carga_horaria")
+  turmas       Turma[]
+
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  @@map("cursos")
+}
+
+model Turma {
+  id          Int          @id @default(autoincrement())
+  anoSemestre String       @map("ano_semestre") @db.VarChar(10)
+  cursoId     Int          @map("curso_id")
+  docenteId   Int          @map("docente_id")
+  
+  curso       Curso        @relation(fields: [cursoId], references: [id])
+  docente     Docente      @relation(fields: [docenteId], references: [id])
+  alunos      AlunoTurma[]
+
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  deletedAt   DateTime?    @map("deleted_at")
+
+  @@map("turmas")
+}
+
+model AlunoTurma {
+  alunoId       Int       @map("aluno_id")
+  turmaId       Int       @map("turma_id")
+  dataMatricula DateTime  @default(now()) @map("data_matricula") @db.Date
+  nota          Decimal?  @db.Decimal(5,2)
+  faltas        Int       @default(0)
+  
+  aluno         Aluno     @relation(fields: [alunoId], references: [id])
+  turma         Turma     @relation(fields: [turmaId], references: [id])
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  @@id([alunoId, turmaId])
+  @@map("alunos_turmas")
+}

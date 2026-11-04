@@ -1,0 +1,61 @@
+
+# ========================================
+# GESTÃO ESCOLAR API V2
+# Node.js + Express + PostgreSQL
+# ========================================
+
+# Dependências do Node.js
+node_modules/
+
+# Variáveis de ambiente e credenciais
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos temporários
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Arquivos gerados
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Cache
+.npm/
+.cache/
+.eslintcache
+
+# Configurações de editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de backup
+*.bak
+*.backup
+*.old
+
+# Certificados e chaves privadas
+*.pem
+*.key
+*.p12
+*.pfx
+
+/generated/prisma
