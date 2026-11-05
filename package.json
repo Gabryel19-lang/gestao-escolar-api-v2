@@ -4,17 +4,17 @@
   "version": "1.0.0",
   "description": "API REST de Gestão Escolar",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "dev": "node --watch server.js",
     "build": "prisma generate",
     "migrate:deploy": "prisma migrate deploy",
-    "start": "node server.js"
+    "start": "node server.js",
     "render-build": "prisma generate && prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
