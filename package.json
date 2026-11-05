@@ -9,6 +9,7 @@
     "build": "prisma generate",
     "migrate:deploy": "prisma migrate deploy",
     "start": "node server.js"
+    "render-build": "prisma generate && prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
